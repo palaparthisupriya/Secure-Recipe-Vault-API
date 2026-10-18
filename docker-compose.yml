@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    container_name: recipe_vault_api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - HOST=0.0.0.0
+      - ENVIRONMENT=production
+      - DATABASE_URL=postgresql://postgres:vaultpassword@db:5432/recipe_vault
+      - JWT_ACCESS_SECRET=production_jwt_access_signing_key_recipe_vault_32_characters_minimum
+      - JWT_REFRESH_SECRET=production_jwt_refresh_signing_key_recipe_vault_32_characters_minimum
+      - JWT_ACCESS_EXPIRES_IN=15m
+      - JWT_REFRESH_EXPIRES_IN=7d
+      - RATE_LIMIT_FAILED_LOGINS=5
+      - RATE_LIMIT_WINDOW_SECONDS=300
+      - COOKIE_SECURE=false
+      - COOKIE_SAMESITE=Strict
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - vault_network
+
+  db:
+    image: postgres:16-alpine
+    container_name: recipe_vault_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: vaultpassword
+      POSTGRES_DB: recipe_vault
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d recipe_vault"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - vault_network
+
+volumes:
+  postgres_data:
+
+networks:
+  vault_network:
+    driver: bridge
