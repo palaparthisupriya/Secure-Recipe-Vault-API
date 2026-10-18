@@ -1,18 +1,18 @@
-# 🛡️ Secure Recipe Vault API
+#  Secure Recipe Vault API
 
 A production-grade, multi-user REST API for a **Secret Recipes Vault** built with **FastAPI**, **SQLAlchemy**, and **PostgreSQL / SQLite**. It implements advanced defense-in-depth security patterns including:
 
-- 🔑 **Dual-Token Authentication**: Short-lived JSON Web Tokens (JWT, 15m) paired with long-lived Refresh Tokens (7d).
-- 🔄 **Refresh Token Rotation (RTR)**: Stateful database allowlist tracking with immediate rotation and token reuse detection.
-- 🍪 **XSS & CSRF Hardening**: Refresh tokens transported strictly via `HttpOnly`, `SameSite=Strict` cookies.
-- 👥 **Role-Based Access Control (RBAC)**: Fine-grained permissions across `user`, `curator`, and `admin` roles.
-- 🔒 **Data & Resource Isolation**: Multi-tenant data segregation ensuring private recipes remain completely invisible to unauthorized users.
-- ⏱️ **Brute-Force Rate Limiting**: Rolling 5-minute sliding window rate limiter (max 5 failed attempts per IP or username before returning HTTP 429).
-- 📜 **Security Audit Logging**: Dedicated admin-only audit trail logging registrations, logins, rotations, and violations.
+-  **Dual-Token Authentication**: Short-lived JSON Web Tokens (JWT, 15m) paired with long-lived Refresh Tokens (7d).
+-  **Refresh Token Rotation (RTR)**: Stateful database allowlist tracking with immediate rotation and token reuse detection.
+-  **XSS & CSRF Hardening**: Refresh tokens transported strictly via `HttpOnly`, `SameSite=Strict` cookies.
+-  **Role-Based Access Control (RBAC)**: Fine-grained permissions across `user`, `curator`, and `admin` roles.
+-  **Data & Resource Isolation**: Multi-tenant data segregation ensuring private recipes remain completely invisible to unauthorized users.
+-  **Brute-Force Rate Limiting**: Rolling 5-minute sliding window rate limiter (max 5 failed attempts per IP or username before returning HTTP 429).
+-  **Security Audit Logging**: Dedicated admin-only audit trail logging registrations, logins, rotations, and violations.
 
 ---
 
-## 🏗️ System Architecture
+##  System Architecture
 
 ```
                     ┌────────────────────────┐
@@ -38,7 +38,7 @@ A production-grade, multi-user REST API for a **Secret Recipes Vault** built wit
 
 ---
 
-## 📁 Repository Structure
+##  Repository Structure
 
 ```
 secure-recipe-vault/
@@ -99,7 +99,7 @@ secure-recipe-vault/
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 - **Python 3.10+** (tested on Python 3.12)
@@ -162,7 +162,7 @@ The API is now running at `http://localhost:3000`.
 
 ---
 
-## 🐳 Running with Docker Compose
+##  Running with Docker Compose
 
 To start the API together with a production-ready PostgreSQL 16 database:
 ```bash
@@ -174,7 +174,7 @@ This launches:
 
 ---
 
-## 📡 API Contract Specification
+##  API Contract Specification
 
 ### 1. Authentication Endpoints
 
@@ -310,7 +310,7 @@ All recipe endpoints require `Authorization: Bearer <access_token>`.
 
 ---
 
-## 🧪 Automated Testing
+##  Automated Testing
 
 ### 1. Pytest Suite
 Run the automated test suite with full verbose output:
@@ -319,17 +319,17 @@ python -m pytest -v
 ```
 
 All 18 comprehensive tests cover:
-- ✅ Password hashing with unique salts (bcrypt 12 rounds)
-- ✅ Input validation & duplicate username rejection (409 Conflict)
-- ✅ Successful login and `HttpOnly; SameSite=Strict` cookie verification
-- ✅ Failed login tracking & 5-failure rate limit lock (429 Too Many Requests)
-- ✅ JWT access token claims verification (`sub`, `role`, `type`, `exp`)
-- ✅ Token expiration handling (401 on expired tokens)
-- ✅ Refresh Token Rotation (RTR) and token reuse detection (401 on reused tokens)
-- ✅ Logout server-side invalidation
-- ✅ Recipe creation and retrieval data isolation
-- ✅ Recipe mutation/deletion RBAC (owner vs curator vs unauthorized user)
-- ✅ Strict admin-only protection on audit logs
+-  Password hashing with unique salts (bcrypt 12 rounds)
+-  Input validation & duplicate username rejection (409 Conflict)
+-  Successful login and `HttpOnly; SameSite=Strict` cookie verification
+-  Failed login tracking & 5-failure rate limit lock (429 Too Many Requests)
+-  JWT access token claims verification (`sub`, `role`, `type`, `exp`)
+-  Token expiration handling (401 on expired tokens)
+-  Refresh Token Rotation (RTR) and token reuse detection (401 on reused tokens)
+-  Logout server-side invalidation
+-  Recipe creation and retrieval data isolation
+-  Recipe mutation/deletion RBAC (owner vs curator vs unauthorized user)
+-  Strict admin-only protection on audit logs
 
 ### 2. cURL Verification Script (Linux / macOS)
 ```bash
@@ -347,7 +347,7 @@ Import `recipe_vault_postman_collection.json` into Postman or Insomnia. It inclu
 
 ---
 
-## 🔒 Threat Modeling & Security Architecture
+##  Threat Modeling & Security Architecture
 
 For an in-depth security analysis covering:
 1. **Cross-Site Scripting (XSS)** mitigation via `HttpOnly` cookies and memory-only access tokens
